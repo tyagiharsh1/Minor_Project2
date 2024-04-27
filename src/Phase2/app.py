@@ -6,8 +6,8 @@ import DH
 import pickle
 import random
 
-UPLOAD_FOLDER = './media/text-files/'
-UPLOAD_KEY = './media/public-keys/'
+UPLOAD_FOLDER = './src/Phase2/media/text-files/'
+UPLOAD_KEY = './src/Phase2/media/public-keys/'
 ALLOWED_EXTENSIONS = set(['txt'])
 
 app = Flask(__name__)
@@ -47,7 +47,7 @@ def call_page_upload():
 '''
 @app.route('/public-key-directory/retrieve/key/<username>')
 def download_public_key(username):
-	for root,dirs,files in os.walk('./media/public-keys/'):
+	for root,dirs,files in os.walk('./src/Phase2/media/public-keys/'):
 		for file in files:
 			list = file.split('-')
 			if list[0] == username:
@@ -71,8 +71,8 @@ def download_file(filename):
 @app.route('/public-key-directory/')
 def downloads_pk():
 	username = []
-	if(os.path.isfile("./media/database/database_1.pickle")):
-		pickleObj = open("./media/database/database_1.pickle","rb")
+	if(os.path.isfile("./src/Phase2/media/database/database_1.pickle")):
+		pickleObj = open("./src/Phase2/media/database/database_1.pickle","rb")
 		username = pickle.load(pickleObj)
 		pickleObj.close()
 	if len(username) == 0:
@@ -125,12 +125,12 @@ def register_user():
 	privatekeylist = []
 	usernamelist = []
 	# Import pickle file to maintain uniqueness of the keys
-	if(os.path.isfile("./media/database/database.pickle")):
-		pickleObj = open("./media/database/database.pickle","rb")
+	if(os.path.isfile("./src/Phase2/media/database/database.pickle")):
+		pickleObj = open("./src/Phase2/media/database/database.pickle","rb")
 		privatekeylist = pickle.load(pickleObj)
 		pickleObj.close()
-	if(os.path.isfile("./media/database/database_1.pickle")):
-		pickleObj = open("./media/database/database_1.pickle","rb")
+	if(os.path.isfile("./src/Phase2/media/database/database_1.pickle")):
+		pickleObj = open("./src/Phase2/media/database/database_1.pickle","rb")
 		usernamelist = pickle.load(pickleObj)
 		pickleObj.close()
 	# Declare a new list which consists all usernames 
@@ -148,10 +148,10 @@ def register_user():
 	privatekeylist.append(str(privatekey))
 	usernamelist.append(username)
 	#Save/update pickle
-	pickleObj = open("./media/database/database.pickle","wb")
+	pickleObj = open("./src/Phase2/media/database/database.pickle","wb")
 	pickle.dump(privatekeylist,pickleObj)
 	pickleObj.close()
-	pickleObj = open("./media/database/database_1.pickle","wb")
+	pickleObj = open("./src/Phase2/media/database/database_1.pickle","wb")
 	pickle.dump(usernamelist,pickleObj)
 	pickleObj.close()
 	#Updating a new public key for a new user
@@ -165,5 +165,5 @@ def register_user():
 
 	
 if __name__ == '__main__':
-#app.run(host="0.0.0.0", port=80)
-	app.run()
+	app.run(host="0.0.0.0", port=80)
+	# app.run()
